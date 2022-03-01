@@ -1,0 +1,36 @@
+// Theme
+@import './_variables';
+
+// Reset
+@import './normalize';
+@import './base';
+
+a {
+  text-decoration: none;
+  color: white;
+
+  &:hover {
+    color: #ccc;
+  }
+  &:active {
+    color: red;
+  }
+}
+
+main,
+.info {
+  margin: 0 auto;
+  padding-top: 63px;
+  @media screen and (orientation: landscape) {
+    max-width: 1320px;
+  }
+}
+.navbar-brand {
+  cursor: pointer;
+}
+.btn-close {
+  color: white !important;
+}
+.list-group-item {
+  white-space: pre-wrap;
+}
