@@ -33,4 +33,14 @@ main,
 }
 .list-group-item {
   white-space: pre-wrap;
+  .btn-note {
+    opacity: 0;
+    transition: 300ms;
+  }
+  &:hover {
+    .btn-note {
+      opacity: 1;
+      transition: 400ms;
+    }
+  }
 }

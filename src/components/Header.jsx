@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { links } from '../links'
 
-export default function Header({ addNote, onSearch, onDeleteAll }) {
+export default function Header({
+  addNote,
+  onSearch,
+  onDeleteAll,
+  ip,
+  hasAccess,
+}) {
   const [noteValue, setNoteValue] = useState('')
   const [searchValue, setSearchValue] = useState('')
 
@@ -16,7 +23,7 @@ export default function Header({ addNote, onSearch, onDeleteAll }) {
                 to='/'
                 className='navbar-link '
               >
-                Свободные места на массаж
+                Массажист Кирилл, г. Пермь
               </Link>
             </li>
             {/* <li
@@ -47,9 +54,7 @@ export default function Header({ addNote, onSearch, onDeleteAll }) {
           aria-labelledby='offcanvasNavbarLabel'
         >
           <div className='offcanvas-header'>
-            <h5 className='offcanvas-title' id='offcanvasNavbarLabel'>
-              {' '}
-            </h5>
+            <span> </span>
             <button
               className='navbar-toggler'
               type='button'
@@ -62,11 +67,11 @@ export default function Header({ addNote, onSearch, onDeleteAll }) {
           <div className='offcanvas-body d-flex flex-column justify-content-between'>
             <div>
               <div className='d-flex mt-4 mb-2 justify-content-between align-items-center'>
-                <h5 className='mb-2'>Поиск по заметкам</h5>
+                <h5 className='mb-2'>Отфильтровать</h5>
                 <button
                   onClick={e => {
                     e.preventDefault()
-                    onSearch(searchValue, setSearchValue)
+                    onSearch(searchValue.trim(' '), setSearchValue)
                   }}
                   data-bs-dismiss='offcanvas'
                   tabIndex={2}
@@ -81,19 +86,20 @@ export default function Header({ addNote, onSearch, onDeleteAll }) {
                   value={searchValue}
                   onChange={e => {
                     setSearchValue(e.target.value)
+                    onSearch(e.target.value)
                   }}
                   tabIndex={1}
                   className='form-control me-2'
                   type='search'
-                  placeholder='Текст заметки'
+                  placeholder='дата / время /день недели'
                   aria-label='Search'
                 />
               </form>
 
-              {localStorage.getItem('password') === 'pass' ? (
+              {ip === hasAccess ? (
                 <>
                   <div className='d-flex mt-4 mb-2 justify-content-between align-items-center'>
-                    <h5 className=''>Добавить заметку</h5>
+                    <h5 className=''>Добавить запись</h5>
                     <button
                       onClick={e => {
                         e.preventDefault()
@@ -113,35 +119,36 @@ export default function Header({ addNote, onSearch, onDeleteAll }) {
                       onChange={e => setNoteValue(e.target.value)}
                       tabIndex={3}
                       className='form-control'
-                      placeholder='Текст заметки'
+                      placeholder='День недели / дата / время'
                     />
                   </form>
+                  <button
+                    onClick={onDeleteAll}
+                    className='btn  btn-danger w-100 mt-2'
+                    data-bs-dismiss='offcanvas'
+                  >
+                    Удалить все
+                  </button>
                 </>
               ) : null}
             </div>
-            {localStorage.getItem('password') === 'pass' ? (
-              <button
-                onClick={onDeleteAll}
-                className='btn  btn-danger'
-                data-bs-dismiss='offcanvas'
-              >
-                Удалить все
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  const pass = window.prompt('Пароль')
 
-                  if (pass === 'Pass082694') {
-                    localStorage.setItem('password', 'pass')
-                  } else return
-                }}
-                data-bs-dismiss='offcanvas'
-                className='btn btn-success'
-              >
-                получить права
-              </button>
-            )}
+            <div>
+              <h3 className='mb-2'>Для записи ⤵️ ⤵️ ⤵️</h3>
+              <ul className='w-100 d-flex justify-content-around'>
+                {links.map((l, i) => (
+                  <a key={i} href={l.link}>
+                    <img
+                      style={{ filter: 'invert(1)' }}
+                      src={l.img}
+                      alt={l.alt}
+                      width={45}
+                      height={45}
+                    />
+                  </a>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
