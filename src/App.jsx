@@ -1,19 +1,20 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Header from './components/header/Header'
+import Header from './components/Header'
 import Info from './pages/info/Info'
 import Notes from './pages/notes/Notes'
-import { useLocalStorage } from './useLocalStorage'
 
 export default function App() {
   const [notes, setNotes] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const url = 'https://mytodo-react-app-default-rtdb.firebaseio.com/'
 
   const fetchData = async () => {
-    let res = await axios.get(`${url}notes.json`)
+    setIsLoading(true)
 
+    let res = await axios.get(`${url}notes.json`)
     if (res.data) {
       const dbNotes = Object.keys(res.data).map(key => {
         return {
@@ -21,8 +22,10 @@ export default function App() {
           id: key,
         }
       })
+
       setNotes(dbNotes.reverse())
     }
+    setIsLoading(false)
   }
   const addNote = async (text, setText) => {
     if (text.trim('')) {
@@ -68,6 +71,7 @@ export default function App() {
             path='/'
             element={
               <Notes
+                isLoading={isLoading}
                 notes={notes}
                 searchValue={searchValue}
                 onDelete={onDelete}

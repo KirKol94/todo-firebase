@@ -16,17 +16,17 @@ export default function Header({ addNote, onSearch, onDeleteAll }) {
                 to='/'
                 className='navbar-link '
               >
-                Заметки
+                Свободные места на массаж
               </Link>
             </li>
-            <li
+            {/* <li
               className='navbar-item text-white'
               style={{ marginLeft: '16px' }}
             >
               <Link to='/info' className='navbar-lin'>
                 Инфо
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
 
